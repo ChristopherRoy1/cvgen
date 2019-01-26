@@ -24,14 +24,15 @@ class Header(models.Model):
     text = models.CharField(max_length=200)
 
     user_data = models.ForeignKey(User_Data, on_delete=models.CASCADE)
-    
+
 
 
 class Header_Field(models.Model):
     def __str__(self):
         return self.text
 
-    header = models.ForeignKey(Header, on_delete=models.CASCADE) # header has many header_fields
+    header = models.ManyToManyField(Header)
+
 
     text = models.CharField(max_length=200)
 
@@ -52,7 +53,7 @@ class Section(models.Model):
 
     section_name = models.CharField(max_length=200)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_data = models.ForeignKey(User_Data, on_delete=models.CASCADE)
     cvs = models.ManyToManyField(CV) #a section can be in many cvs, and a cv has many sections
 
 
@@ -81,3 +82,4 @@ class CV(models.Model):
         return self.cv_name
 
     cv_name = models.CharField(max_length=200)
+    header = models.ForeignKey(Header, on_delete=models.SET_NULL)
